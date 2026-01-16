@@ -352,35 +352,32 @@ function nextPage() {
 /* ================= LOGGING ================= */
 
 function sendLogs() {
-  if (!LOGGING_ENABLED || !logs.length) return;
+  if (!LOGGING_ENABLED || !logs.length) {
+    console.log("Logging disabled or no logs");
+    return;
+  }
+
+  console.log("Sending logs:", logs);
 
   fetch(LOG_ENDPOINT, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({
       session_id: sessionId,
       logs: logs
     })
   })
-  .then(r => r.json())
-  .then(r => console.log("Log result:", r))
-  .catch(err => console.error("Log send failed", err));
+  .then(() => {
+    console.log("Logs sent (request completed)");
+  })
+  .catch(err => {
+    console.error("Log send failed", err);
+  });
 }
 
-function downloadReport() {
-  const text =
-    "Session: " + sessionId + "\n" +
-    "Date: " + new Date().toLocaleString() + "\n\n" +
-    logs.map(l => "Page " + l.page + ": " + l.duration + "s").join("\n");
-
-  const blob = new Blob([text], { type: "text/plain" });
-  const a = document.createElement("a");
-  a.href = URL.createObjectURL(blob);
-  a.download = "session_" + sessionId + ".txt";
-  a.click();
-}
 </script>
 
 </body>
 </html>
+
 
