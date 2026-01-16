@@ -2,25 +2,73 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reading App</title>
     <style>
-        body { font-family: sans-serif; display: flex; flex-direction: column; height: 100vh; margin: 0; background: white; }
-        #counter { padding: 10px; font-size: 14px; color: #888; text-align: center; border-bottom: 1px solid #eee; }
-        #content { flex-grow: 1; padding: 20px; overflow-y: auto; font-size: 18px; line-height: 1.6; }
-        .footer { padding: 20px; display: flex; justify-content: center; border-top: 1px solid #eee; }
-        button { padding: 15px; font-size: 18px; background: #007AFF; color: white; border: none; border-radius: 10px; width: 100%; max-width: 400px; cursor: pointer; }
+        /* Використовуємо dvh для точного розрахунку висоти на мобільних */
+        body { 
+            font-family: sans-serif; 
+            display: flex; 
+            flex-direction: column; 
+            height: 100vh; 
+            height: 100dvh; 
+            margin: 0; 
+            background: white; 
+            overflow: hidden; 
+        }
+        
+        #counter { 
+            padding: 8px; 
+            font-size: 13px; 
+            color: #888; 
+            text-align: center; 
+            border-bottom: 1px solid #eee; 
+            flex-shrink: 0;
+        }
+
+        #content { 
+            flex-grow: 1; 
+            padding: 15px 20px; 
+            overflow-y: auto; 
+            font-size: 18px; 
+            line-height: 1.6; 
+            -webkit-overflow-scrolling: touch; /* Плавний скрол на iOS */
+        }
+
+        .footer { 
+            padding: 10px 20px; /* Зменшили відступи */
+            display: flex; 
+            justify-content: center; 
+            border-top: 1px solid #eee; 
+            flex-shrink: 0;
+            background: white;
+            padding-bottom: calc(10px + env(safe-area-inset-bottom)); /* Враховуємо "смужку" на iPhone */
+        }
+
+        button { 
+            padding: 12px; 
+            font-size: 18px; 
+            background: #007AFF; 
+            color: white; 
+            border: none; 
+            border-radius: 10px; 
+            width: 100%; 
+            max-width: 400px; 
+            cursor: pointer; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
         button:active { background: #0056b3; }
-        /* Стиль для поля введення ID */
+
         #id-input { 
-            padding: 15px; 
+            padding: 12px; 
             font-size: 24px; 
             text-align: center; 
-            width: 80%; 
-            max-width: 200px; 
+            width: 140px; 
             border: 2px solid #007AFF; 
             border-radius: 10px; 
-            margin-top: 20px;
+            margin-top: 15px;
+            -webkit-appearance: none;
         }
     </style>
 </head>
@@ -28,10 +76,8 @@
 
     <div id="counter">User Identification</div>
     <div id="content" style="text-align: center;">
-         <h4>This online version demonstrates the STR protocol. Data logging was disabled after completion of the pilot study.</h4>
-		<h3>Welcome!</h3>
-        <p>Please enter any 4 digits to start<br>
-		<span style="color: green">(будь ласка введіть будь які 4 цифри для початку)</span>:</p>
+        <h3 style="margin-top: 10px;">Welcome!</h3>
+        <p>Please enter any 4 digits to start:</p>
         <input type="number" id="id-input" placeholder="1234" pattern="\d*">
     </div>
 
@@ -221,12 +267,10 @@
         let logs = [];
         let userId = "0000";
 
-        // Функція для початку роботи (після введення ID)
         function startApp() {
             const inputField = document.getElementById('id-input');
             if (inputField) {
                 userId = inputField.value || "0000";
-                // Перемикаємо кнопку на функцію nextPage
                 document.getElementById('main-btn').onclick = nextPage;
                 nextPage(); 
             }
@@ -243,17 +287,19 @@
             index++;
 
             if (index < pages.length) {
-                document.getElementById('content').style.textAlign = "left"; // повертаємо вирівнювання тексту
-                document.getElementById('content').innerHTML = pages[index];
-                document.getElementById('content').scrollTop = 0;
+                const contentDiv = document.getElementById('content');
+                contentDiv.style.textAlign = "left";
+                contentDiv.innerHTML = pages[index];
+                contentDiv.scrollTop = 0;
                 
                 const total = pages.length;
                 document.getElementById('counter').innerHTML = "Page " + (index + 1) + " of " + total + " | User: " + userId;
                 
+                const btn = document.getElementById('main-btn');
                 if (index % 2 === 0) {
-                    document.getElementById('main-btn').innerHTML = "Now without translation →";
+                    btn.innerHTML = "Now without translation →";
                 } else {
-                    document.getElementById('main-btn').innerHTML = "Next block →";
+                    btn.innerHTML = "Next block →";
                 }
 
                 startTime = new Date().getTime();
@@ -275,5 +321,4 @@
         }
     </script>
 </body>
-
 </html>
