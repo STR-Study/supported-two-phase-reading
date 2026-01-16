@@ -1,100 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Reading App</title>
-    <style>
-        /* Використовуємо dvh для точного розрахунку висоти на мобільних */
-        body { 
-            font-family: sans-serif; 
-            display: flex; 
-            flex-direction: column; 
-            height: 100vh; 
-            height: 100dvh; 
-            margin: 0; 
-            background: white; 
-            overflow: hidden; 
-        }
-        
-        #counter { 
-            padding: 8px; 
-            font-size: 13px; 
-            color: #888; 
-            text-align: center; 
-            border-bottom: 1px solid #eee; 
-            flex-shrink: 0;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>STR Reading Demo</title>
 
-        #content { 
-            flex-grow: 1; 
-            padding: 15px 20px; 
-            overflow-y: auto; 
-            font-size: 18px; 
-            line-height: 1.6; 
-            -webkit-overflow-scrolling: touch; /* Плавний скрол на iOS */
-        }
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  height: 100dvh;
+  margin: 0;
+  background: white;
+  overflow: hidden;
+}
 
-        .footer { 
-            padding: 10px 20px; /* Зменшили відступи */
-            display: flex; 
-            justify-content: center; 
-            border-top: 1px solid #eee; 
-            flex-shrink: 0;
-            background: white;
-            padding-bottom: calc(10px + env(safe-area-inset-bottom)); /* Враховуємо "смужку" на iPhone */
-        }
+#counter {
+  padding: 8px;
+  font-size: 13px;
+  color: #888;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
 
-        button { 
-            padding: 12px; 
-            font-size: 18px; 
-            background: #007AFF; 
-            color: white; 
-            border: none; 
-            border-radius: 10px; 
-            width: 100%; 
-            max-width: 400px; 
-            cursor: pointer; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
+#content {
+  flex-grow: 1;
+  padding: 15px 20px;
+  overflow-y: auto;
+  font-size: 18px;
+  line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
+}
 
-        button:active { background: #0056b3; }
+.footer {
+  padding: 10px 20px;
+  border-top: 1px solid #eee;
+  background: white;
+  display: flex;
+  justify-content: center;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
+}
 
-        #id-input { 
-            padding: 12px; 
-            font-size: 24px; 
-            text-align: center; 
-            width: 140px; 
-            border: 2px solid #007AFF; 
-            border-radius: 10px; 
-            margin-top: 15px;
-            -webkit-appearance: none;
-        }
-    </style>
+button {
+  width: 100%;
+  max-width: 400px;
+  padding: 14px;
+  font-size: 18px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:active { background: #0056b3; }
+
+#id-input {
+  padding: 12px;
+  font-size: 24px;
+  text-align: center;
+  width: 140px;
+  border: 2px solid #007AFF;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+</style>
 </head>
+
 <body>
 
-    <div id="counter">Session identifier. No personal data are collected.</div>
-    <div id="content" style="text-align: center;">
-        <h3 style="margin-top: 10px;">Welcome!</h3>
-        
+<div id="counter">
+  Session identifier (non-personal)
+</div>
 
-<h4>This online version demonstrates the STR protocol. Data logging was disabled after completion of the pilot study.</h4>
-		
-        <p>Please enter any 4 digits to start<br>
-		<span style="color: green">(будь ласка введіть будь які 4 цифри для початку)</span>:</p>
-		
-        <input type="number" id="id-input" placeholder="1234" pattern="\d*">
-    </div>
+<div id="content" style="text-align:center;">
+  <h3>Welcome</h3>
 
-    <div class="footer">
-        <button id="main-btn" onclick="startApp()">Start</button>
-    </div>
+  <p>
+    This page demonstrates the <strong>Supported Two-Phase Reading (STR)</strong> protocol.<br>
+    Data logging is limited to a closed pilot and session-level statistics only.
+  </p>
 
-    <script>
-        const pages = [
-		
-            // ЧАНК 1
+  <p>
+    Please enter any 4 digits to generate a temporary session code<br>
+    <span style="color:green;">
+      (будь ласка введіть будь-які 4 цифри для початку)
+    </span>
+  </p>
+
+  <input id="id-input"
+         type="number"
+         inputmode="numeric"
+         placeholder="1234"
+         maxlength="4">
+</div>
+
+<div class="footer">
+  <button id="main-btn" onclick="startApp()">Start</button>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+
+const LOG_ENDPOINT =
+  "https://script.google.com/macros/s/AKfycbyAUVV_9cZcXoHd3lniHicJpO8Z2GJqGGtZY7UXCTgUTPfeCSQIor8gOKKNVYssrEjI-g/exec";
+
+const LOGGING_ENABLED = true;
+
+/* ================= DATA ================= */
+
+const pages = [
+  
+  
+  
+              // ЧАНК 1
 `
 <p>I am a very old man <span style="color: green">(я дуже старий чоловік)</span>. I don't know how old I am <span style="color: green">(я не знаю, скільки мені років)</span>. Maybe I am a hundred years old <span style="color: green">(можливо, мені сто років)</span>, maybe more <span style="color: green">(можливо, більше)</span>. I have never aged <span style="color: green">(я ніколи не старів; <i>to age – старіти, старіння</i>)</span> as other men <span style="color: green">(як інші люди)</span>. I don't remember my childhood <span style="color: green">(я не пам'ятаю своє дитинство; <i>childhood – дитинство, дитячі роки</i>)</span>. It seems that I've always been thirty <span style="color: green">(здається, мені завжди було тридцять; <i>to seem – здаватися, виглядати</i>)</span>. Today I look just as <span style="color: green">(сьогодні я виглядаю точно так само, як)</span> forty years and more ago <span style="color: green">(сорок і більше років тому)</span>. But I feel that I can't live forever <span style="color: green">(але я відчуваю, що не можу жити вічно; <i>forever – назавжди, вічно</i>)</span>. Someday I will die for good <span style="color: green">(колись я помру назавжди; <i>someday – колись, одного дня; for good – назавжди, остаточно</i>)</span> and there will be no resurrection <span style="color: green">(і не буде воскресіння; <i>resurrection – воскресіння, відродження</i>)</span>. It's strange that I'm still afraid to die <span style="color: green">(дивно, що я досі боюся померти; <i>strange – дивний, незвичайний; afraid – наляканий, що боїться</i>)</span>. Because I have died twice <span style="color: green">(тому що я помирав двічі; <i>to die, died, died – помирати, вмирати; twice – двічі</i>)</span> and I am still alive <span style="color: green">(і я досі живий; <i>alive – живий, жвавий</i>)</span>. But I still have this terror of death <span style="color: green">(але в мене досі є цей жах смерті; <i>terror – жах, терор, страх</i>)</span>, like a man who has never died <span style="color: green">(як у людини, яка ніколи не помирала)</span>. I believe that I am mortal <span style="color: green">(я вірю, що я смертний; <i>to believe – вірити, довіряти; mortal – смертний, смертельний</i>)</span>.</p>
 `,
@@ -265,69 +287,99 @@
 <p>As I was continuing my examination I started feeling sleepy. I thought it was because of my long ride and all the excitement. I felt almost safe in my present location. I knew that one man could defend the trail to the cave against an army.</p>
 <p>I soon became so sleepy that I could hardly resist the strong wish to have some rest. But I knew I couldn't do that. It would mean certain death for me, because my red friends could be here any minute. So I went towards the opening of the cave. But my strength left me and I fell on the ground.</p>
 `,
+  
+  
+  
+  
+  
+];
 
-        ];
+let index = -1;
+let startTime = null;
+let logs = [];
+let sessionId = "0000";
 
-        let index = -1;
-        let startTime;
-        let logs = [];
-        let userId = "0000";
+/* ================= FLOW ================= */
 
-        function startApp() {
-            const inputField = document.getElementById('id-input');
-            if (inputField) {
-                userId = inputField.value || "0000";
-                document.getElementById('main-btn').onclick = nextPage;
-                nextPage(); 
-            }
-        }
+function startApp() {
+  const input = document.getElementById("id-input");
+  sessionId = (input.value || "0000").slice(0, 4);
 
-        function nextPage() {
-            const now = new Date().getTime();
+  document.getElementById("main-btn").onclick = nextPage;
+  nextPage();
+}
 
-            if (index >= 0 && index < pages.length) {
-                const duration = ((now - startTime) / 1000).toFixed(2);
-                logs.push("Page " + (index + 1) + ": " + duration + "s");
-            }
+function nextPage() {
+  const now = Date.now();
 
-            index++;
+  if (index >= 0 && index < pages.length && startTime !== null) {
+    logs.push({
+      page: index + 1,
+      duration: ((now - startTime) / 1000).toFixed(2)
+    });
+  }
 
-            if (index < pages.length) {
-                const contentDiv = document.getElementById('content');
-                contentDiv.style.textAlign = "left";
-                contentDiv.innerHTML = pages[index];
-                contentDiv.scrollTop = 0;
-                
-                const total = pages.length;
-                document.getElementById('counter').innerHTML = "Page " + (index + 1) + " of " + total + " | User: " + userId;
-                
-                const btn = document.getElementById('main-btn');
-                if (index % 2 === 0) {
-                    btn.innerHTML = "Now without translation →";
-                } else {
-                    btn.innerHTML = "Next block →";
-                }
+  index++;
 
-                startTime = new Date().getTime();
-            } else {
-                document.getElementById('content').innerHTML = "<h3>Done!</h3><p>You have read all the chunks. User ID: " + userId + "</p>";
-                document.getElementById('main-btn').innerHTML = "Download Report";
-                document.getElementById('main-btn').onclick = downloadReport;
-            }
-        }
+  if (index < pages.length) {
+    const content = document.getElementById("content");
+    content.style.textAlign = "left";
+    content.innerHTML = pages[index];
+    content.scrollTop = 0;
 
-        function downloadReport() {
-            const header = "Reading Report\nUser ID: " + userId + "\nDate: " + new Date().toLocaleString() + "\n" + "-".repeat(20) + "\n";
-            const text = header + logs.join('\n');
-            const blob = new Blob([text], { type: 'text/plain' });
-            const anchor = document.createElement('a');
-            anchor.download = 'log_' + userId + '.txt';
-            anchor.href = window.URL.createObjectURL(blob);
-            anchor.click();
-        }
-    </script>
+    document.getElementById("counter").innerHTML =
+      "Page " + (index + 1) + " of " + pages.length;
+
+    const btn = document.getElementById("main-btn");
+    btn.innerHTML = (index % 2 === 0)
+      ? "Now without translation →"
+      : "Next block →";
+
+    startTime = Date.now();
+
+  } else {
+    sendLogs();
+
+    document.getElementById("content").innerHTML =
+      "<h3>Done</h3><p>You have completed all reading blocks.</p>";
+
+    const btn = document.getElementById("main-btn");
+    btn.innerHTML = "Download backup log";
+    btn.onclick = downloadReport;
+  }
+}
+
+/* ================= LOGGING ================= */
+
+function sendLogs() {
+  if (!LOGGING_ENABLED || !logs.length) return;
+
+  fetch(LOG_ENDPOINT, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      session_id: sessionId,
+      logs: logs
+    })
+  })
+  .then(r => r.json())
+  .then(r => console.log("Log result:", r))
+  .catch(err => console.error("Log send failed", err));
+}
+
+function downloadReport() {
+  const text =
+    "Session: " + sessionId + "\n" +
+    "Date: " + new Date().toLocaleString() + "\n\n" +
+    logs.map(l => "Page " + l.page + ": " + l.duration + "s").join("\n");
+
+  const blob = new Blob([text], { type: "text/plain" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "session_" + sessionId + ".txt";
+  a.click();
+}
+</script>
+
 </body>
 </html>
-
-
-
