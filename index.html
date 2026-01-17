@@ -197,7 +197,7 @@ function startApp() {
     alert("Please enter exactly 4 digits\nExample: 1234, 9876, 0001");
     input.focus();
     input.value = ""; // Очищаем поле
-    input.setAttribute("placeholder", value || "1234"); // Восстанавливаем placeholder
+    input.setAttribute("placeholder", value || ""); // Восстанавливаем placeholder
     return;
   }
   
@@ -276,6 +276,7 @@ function sendLogs() {
 
 </body>
 </html>
+
 
 
 
