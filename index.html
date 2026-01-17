@@ -92,10 +92,14 @@ button:active { background: #0056b3; }
   </p>
 
   <input id="id-input"
-         type="number"
-         inputmode="numeric"
-         placeholder=""
-         maxlength="4">
+       type="text"
+       inputmode="numeric"
+       pattern="\d{4}"
+       placeholder="1234"
+       maxlength="4"
+       autocomplete="off"
+       autocorrect="off"
+       spellcheck="false">
 </div>
 
 <div class="footer">
@@ -186,12 +190,22 @@ let sessionId = "0000";
 
 function startApp() {
   const input = document.getElementById("id-input");
-  sessionId = (input.value || "0000").slice(0, 4);
-
+  const value = input.value.trim();
+  
+  // Жёсткая проверка: только 4 цифры
+  if (!/^\d{4}$/.test(value)) {
+    alert("Please enter exactly 4 digits\nExample: 1234, 9876, 0001");
+    input.focus();
+    input.value = ""; // Очищаем поле
+    input.setAttribute("placeholder", value || "1234"); // Восстанавливаем placeholder
+    return;
+  }
+  
+  // Сохраняем ID и продолжаем
+  sessionId = value;
   document.getElementById("main-btn").onclick = nextPage;
   nextPage();
 }
-
 function nextPage() {
   const now = Date.now();
 
@@ -262,6 +276,7 @@ function sendLogs() {
 
 </body>
 </html>
+
 
 
 
