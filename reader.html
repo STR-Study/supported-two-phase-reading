@@ -140,6 +140,15 @@ const pages = [
 
 let index = -1;
 
+/* старт — вызывается ОДИН РАЗ */
+function startReading() {
+  index = -1;
+  const btn = document.getElementById("mainBtn");
+  btn.onclick = nextPage;
+  nextPage();
+}
+
+/* листание — НЕ знает про старт */
 function nextPage() {
   index++;
 
@@ -150,10 +159,9 @@ function nextPage() {
     content.innerHTML = pages[index];
     content.scrollTop = 0;
 
-btn.textContent = (index % 2 === 0)
-  ? "Now without translation →"
-  : "Next block →";
-
+    btn.textContent = (index % 2 === 0)
+      ? "Now without translation →"
+      : "Next block →";
 
   } else {
     content.innerHTML = `
