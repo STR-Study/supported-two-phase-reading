@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>STR Reading Demo</title>
+
+<style>
+body {
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  background: white;
+  overflow: hidden;
+}
+
+#header {
+  padding: 10px;
+  font-size: 14px;
+  color: #666;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  flex-shrink: 0;
+}
+
+#content {
+  flex-grow: 1;
+  padding: 16px 20px;
+  overflow-y: auto;
+  font-size: 18px;
+  line-height: 1.6;
+}
+
+.footer {
+  padding: 12px 20px;
+  border-top: 1px solid #eee;
+  background: white;
+}
+
+button {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  display: block;
+  padding: 14px;
+  font-size: 18px;
+  background: #007AFF;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+button:active {
+  background: #0056b3;
+}
+</style>
+</head>
+
+<body>
+
+<div id="header">
+  Supported Two-Phase Reading (STR) — Demo
+</div>
+
+<div id="content">
+  <h3>How this works</h3>
+  <p>
+    You will read the same text twice.
+  </p>
+  <ul>
+    <li><strong>First reading:</strong> with in-text support</li>
+    <li><strong>Second reading:</strong> without any support</li>
+  </ul>
+  <p>
+    Please read continuously and do not translate word by word.
+  </p>
+</div>
+
+<div class="footer">
+  <button id="mainBtn" onclick="nextPage()">Start reading</button>
+</div>
+
+<script>
+const pages = [
+
+/* ===== PHASE I ===== */
+`
+<p>
+I am a very old man <span style="color: green">(я дуже старий чоловік)</span>.
+I don't know how old I am <span style="color: green">(я не знаю, скільки мені років)</span>.
+Maybe I am a hundred years old <span style="color: green">(можливо, мені сто років)</span>, maybe more.
+I have never aged as other men.
+</p>
+`,
+
+/* ===== PHASE II ===== */
+`
+<p>
+I am a very old man.
+I don't know how old I am.
+Maybe I am a hundred years old, maybe more.
+I have never aged as other men.
+</p>
+`
+
+];
+
+let index = -1;
+
+function nextPage() {
+  index++;
+
+  const content = document.getElementById("content");
+  const btn = document.getElementById("mainBtn");
+
+  if (index < pages.length) {
+    content.innerHTML = pages[index];
+    content.scrollTop = 0;
+
+    btn.textContent = (index === 0)
+      ? "Now without translation →"
+      : "Finish";
+
+  } else {
+    content.innerHTML = `
+      <h3>Done</h3>
+      <p>
+        You have completed one full STR cycle:
+        supported reading → unsupported reading.
+      </p>
+      <p>
+        This forced transition is the core of the STR design.
+      </p>
+    `;
+
+    btn.textContent = "Back to website";
+    btn.onclick = () => {
+      window.location.href = "https://sites.google.com/view/str-study";
+    };
+  }
+}
+</script>
+
+</body>
+</html>
