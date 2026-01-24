@@ -11,15 +11,16 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
+  height: 100dvh;
   margin: 0;
   background: white;
   overflow: hidden;
 }
 
-#header {
-  padding: 10px;
-  font-size: 14px;
-  color: #666;
+#counter {
+  padding: 8px;
+  font-size: 13px;
+  color: #888;
   text-align: center;
   border-bottom: 1px solid #eee;
   flex-shrink: 0;
@@ -27,23 +28,25 @@ body {
 
 #content {
   flex-grow: 1;
-  padding: 16px 20px;
+  padding: 15px 20px;
   overflow-y: auto;
   font-size: 18px;
   line-height: 1.6;
+  -webkit-overflow-scrolling: touch;
 }
 
 .footer {
-  padding: 12px 20px;
+  padding: 10px 20px;
   border-top: 1px solid #eee;
   background: white;
+  display: flex;
+  justify-content: center;
+  padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
 
 button {
   width: 100%;
-  max-width: 420px;
-  margin: 0 auto;
-  display: block;
+  max-width: 400px;
   padding: 14px;
   font-size: 18px;
   background: #007AFF;
@@ -61,30 +64,41 @@ button:active {
 
 <body>
 
-<div id="header">
-  Supported Two-Phase Reading (STR) — Demo
+<div id="counter">
+  Supported Two-Phase Reading (STR)
 </div>
 
-<div id="content">
-  <h3>How this works</h3>
+<div id="content" style="text-align:center;">
+  <h3>Welcome</h3>
+
   <p>
-    You will read the same text twice.
+    This demo illustrates the <strong>Supported Two-Phase Reading (STR)</strong> protocol.
   </p>
-  <ul>
-    <li><strong>First reading:</strong> with in-text support</li>
-    <li><strong>Second reading:</strong> without any support</li>
+
+  <p>
+    You will read each text block twice:
+  </p>
+  <ul style="text-align:left; display:inline-block;">
+    <li><strong>Phase I:</strong> with in-text support</li>
+    <li><strong>Phase II:</strong> without support</li>
   </ul>
+
   <p>
     Please read continuously and do not translate word by word.
   </p>
 </div>
 
 <div class="footer">
-  <button id="mainBtn" onclick="startReading()">Start reading</button>
+  <button id="main-btn" onclick="startReading()">Start reading</button>
 </div>
 
 <script>
+
+/* ================= DATA ================= */
+
 const pages = [
+  /* сюда вставляешь все свои PHASE I / PHASE II блоки */
+
 
 /* ===== PHASE I ===== */
 `
@@ -135,35 +149,42 @@ const pages = [
 <p>"You are certainly very natural in America," answered Lord Canterville. He did not quite understand Mr. Otis's last phrase. "If you are fine with ghosts, then everything is alright. Remember, I warned you."</p>
 `
 
+  
 ];
 
+/* ================= FLOW ================= */
 
 let index = -1;
 
 /* старт — вызывается ОДИН РАЗ */
 function startReading() {
   index = -1;
-  const btn = document.getElementById("mainBtn");
+  const btn = document.getElementById("main-btn");
   btn.onclick = nextPage;
   nextPage();
 }
 
-/* листание — НЕ знает про старт */
+/* листание */
 function nextPage() {
   index++;
 
   const content = document.getElementById("content");
-  const btn = document.getElementById("mainBtn");
+  const btn = document.getElementById("main-btn");
+  const counter = document.getElementById("counter");
 
   if (index < pages.length) {
+    content.style.textAlign = "left";
     content.innerHTML = pages[index];
     content.scrollTop = 0;
+
+    counter.textContent = "Page " + (index + 1) + " of " + pages.length;
 
     btn.textContent = (index % 2 === 0)
       ? "Now without translation →"
       : "Next block →";
 
   } else {
+    content.style.textAlign = "center";
     content.innerHTML = `
       <h3>Done</h3>
       <p>
@@ -171,17 +192,3 @@ function nextPage() {
         supported reading → unsupported reading.
       </p>
       <p>
-        This forced transition is the core of the STR design.
-      </p>
-    `;
-
-    btn.textContent = "Back to website";
-    btn.onclick = () => {
-      window.location.href = "https://sites.google.com/view/str-study";
-    };
-  }
-}
-</script>
-
-</body>
-</html>
