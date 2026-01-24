@@ -149,11 +149,11 @@ const pages = [
 <p>"I am afraid the ghost exists," said Lord Canterville, smiling, "and it managed to resist the offers of your concert organizers."</p>`,
   
   /* ===== PHASE I - Block 4 ===== */
-  `<p>It has been around for three centuries. Since 1584. It always appears before one of our family members die.</p>
+  `<p>It has been around for three centuries <span style="color: green">(es gibt ihn seit drei Jahrhunderten)</span>. Since 1584 <span style="color: green">(seit 1584)</span>. It always appears before one of our family members die <span style="color: green">(er erscheint immer, bevor eines unserer Familienmitglieder stirbt; <i>to appear – erscheinen; to die – sterben</i>)</span>.</p>
 
-<p>"Well, so does the family doctor for that matter, Lord Canterville. But, sir, ghosts do not exist. I guess the laws of Nature do not make exceptions. Even for the British aristocracy."</p>
+<p>"Well, so does the family doctor for that matter, Lord Canterville <span style="color: green">(nun, das tut auch der Hausarzt, Lord Canterville; <i>for that matter – was das betrifft, in dieser Hinsicht</i>)</span>. But, sir, ghosts do not exist <span style="color: green">(aber, mein Herr, Geister existieren nicht)</span>. I guess the laws of Nature do not make exceptions <span style="color: green">(ich vermute, die Gesetze der Natur machen keine Ausnahmen; <i>to guess – vermuten, raten; law – das Gesetz; exception – die Ausnahme</i>)</span>. Even for the British aristocracy <span style="color: green">(auch nicht für die britische Aristokratie)</span>."</p>
 
-<p>"You are certainly very natural in America," answered Lord Canterville. He did not quite understand Mr. Otis's last phrase. "If you are fine with ghosts, then everything is alright. Remember, I warned you."</p>`,
+<p>"You are certainly very natural in America <span style="color: green">(Sie sind sicherlich sehr natürlich in Amerika; <i>certainly – sicherlich, gewiss</i>)</span>," answered Lord Canterville. He did not quite understand Mr. Otis's last phrase <span style="color: green">(er verstand Mr. Otis' letzten Satz nicht ganz; <i>quite – ganz, völlig; phrase – der Satz, die Phrase</i>)</span>. "If you are fine with ghosts <span style="color: green">(wenn Sie mit Geistern einverstanden sind)</span>, then everything is alright <span style="color: green">(dann ist alles in Ordnung)</span>. Remember, I warned you <span style="color: green">(denken Sie daran, ich habe Sie gewarnt; <i>to warn – warnen</i>)</span>."</p>`,
   
   /* ===== PHASE II - Block 4 ===== */
   `<p>It has been around for three centuries. Since 1584. It always appears before one of our family members die.</p>
@@ -206,7 +206,7 @@ function nextPage() {
     sendLogs();
 
     document.getElementById("content").innerHTML =
-      "<div style='text-align:center; padding: 40px;'><h3>Fertig! 🎉</h3><p>Du hast alle Leseblöcke abgeschlossen.</p></div>";
+      "<div style='text-align:center; padding: 40px;'><h3>Fertig! 🎉</h3><p>Du hast alle Leseblöcke abgeschlossen.</p><p style='margin-top: 30px;'><a href='https://sites.google.com/view/str-study' style='display: inline-block; padding: 14px 30px; background: #4CAF50; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: bold;'>Zurück zur Hauptseite</a></p></div>";
 
     document.getElementById("counter").innerHTML = "Abgeschlossen";
 
