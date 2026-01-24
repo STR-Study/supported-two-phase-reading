@@ -150,9 +150,10 @@ function nextPage() {
     content.innerHTML = pages[index];
     content.scrollTop = 0;
 
-    btn.textContent = (index === 0)
-      ? "Now without translation →"
-      : "Finish";
+btn.textContent = (index % 2 === 0)
+  ? "Now without translation →"
+  : "Next block →";
+
 
   } else {
     content.innerHTML = `
