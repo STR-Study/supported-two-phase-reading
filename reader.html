@@ -11,7 +11,6 @@ body {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  height: 100dvh;
   margin: 0;
   background: white;
   overflow: hidden;
@@ -23,7 +22,6 @@ body {
   color: #888;
   text-align: center;
   border-bottom: 1px solid #eee;
-  flex-shrink: 0;
 }
 
 #content {
@@ -32,32 +30,25 @@ body {
   overflow-y: auto;
   font-size: 18px;
   line-height: 1.6;
-  -webkit-overflow-scrolling: touch;
 }
 
 .footer {
   padding: 10px 20px;
   border-top: 1px solid #eee;
   background: white;
-  display: flex;
-  justify-content: center;
-  padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
 
 button {
   width: 100%;
   max-width: 400px;
+  margin: 0 auto;
+  display: block;
   padding: 14px;
   font-size: 18px;
   background: #007AFF;
   color: white;
   border: none;
   border-radius: 12px;
-  cursor: pointer;
-}
-
-button:active {
-  background: #0056b3;
 }
 </style>
 </head>
@@ -70,35 +61,23 @@ button:active {
 
 <div id="content" style="text-align:center;">
   <h3>Welcome</h3>
-
   <p>
-    This demo illustrates the <strong>Supported Two-Phase Reading (STR)</strong> protocol.
-  </p>
-
-  <p>
-    You will read each text block twice:
-  </p>
-  <ul style="text-align:left; display:inline-block;">
-    <li><strong>Phase I:</strong> with in-text support</li>
-    <li><strong>Phase II:</strong> without support</li>
-  </ul>
-
-  <p>
-    Please read continuously and do not translate word by word.
+    You will read each block twice:
+    <br>first with support, then without.
   </p>
 </div>
 
 <div class="footer">
-  <button id="main-btn" onclick="startReading()">Start reading</button>
+  <button id="mainBtn" onclick="startReading()">Start reading</button>
 </div>
 
 <script>
-
-/* ================= DATA ================= */
-
+/* ===== DATA ===== */
 const pages = [
-  /* сюда вставляешь все свои PHASE I / PHASE II блоки */
+  `<p><b>PHASE I.</b> Supported text here.</p>`,
+  `<p><b>PHASE II.</b> Same text without support.</p>`
 
+  // дальше просто добавляй пары
 
 /* ===== PHASE I ===== */
 `
@@ -148,28 +127,23 @@ const pages = [
 
 <p>"You are certainly very natural in America," answered Lord Canterville. He did not quite understand Mr. Otis's last phrase. "If you are fine with ghosts, then everything is alright. Remember, I warned you."</p>
 `
-
   
 ];
 
-/* ================= FLOW ================= */
-
 let index = -1;
 
-/* старт — вызывается ОДИН РАЗ */
+/* ===== FLOW ===== */
 function startReading() {
   index = -1;
-  const btn = document.getElementById("main-btn");
-  btn.onclick = nextPage;
+  document.getElementById("mainBtn").onclick = nextPage;
   nextPage();
 }
 
-/* листание */
 function nextPage() {
   index++;
 
   const content = document.getElementById("content");
-  const btn = document.getElementById("main-btn");
+  const btn = document.getElementById("mainBtn");
   const counter = document.getElementById("counter");
 
   if (index < pages.length) {
@@ -179,16 +153,25 @@ function nextPage() {
 
     counter.textContent = "Page " + (index + 1) + " of " + pages.length;
 
-    btn.textContent = (index % 2 === 0)
-      ? "Now without translation →"
-      : "Next block →";
+    btn.textContent =
+      (index % 2 === 0)
+        ? "Now without translation →"
+        : "Next block →";
 
   } else {
     content.style.textAlign = "center";
     content.innerHTML = `
       <h3>Done</h3>
-      <p>
-        You have completed one full STR cycle:
-        supported reading → unsupported reading.
-      </p>
-      <p>
+      <p>You have completed the STR demo.</p>
+    `;
+
+    btn.textContent = "Back to website";
+    btn.onclick = () => {
+      window.location.href = "https://sites.google.com/view/str-study";
+    };
+  }
+}
+</script>
+
+</body>
+</html>
