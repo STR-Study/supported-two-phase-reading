@@ -40,24 +40,38 @@ body {
   border-top: 1px solid #eee;
   background: white;
   display: flex;
+  gap: 10px;
   justify-content: center;
   padding-bottom: calc(10px + env(safe-area-inset-bottom));
 }
 
 button {
-  width: 100%;
-  max-width: 400px;
   padding: 14px;
   font-size: 18px;
-  background: #007AFF;
   color: white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
 }
 
-button:active { background: #0056b3; }
-button.hidden { display: none; }
+#main-btn {
+  width: 100%;
+  max-width: 400px;
+  background: #007AFF;
+}
+
+#back-btn {
+  background: #6c757d;
+  min-width: 100px;
+}
+
+button:active { 
+  opacity: 0.8;
+}
+
+button.hidden { 
+  display: none; 
+}
 </style>
 </head>
 
@@ -108,6 +122,7 @@ button.hidden { display: none; }
 </div>
 
 <div class="footer">
+  <button id="back-btn" class="hidden" onclick="previousPage()">← Zurück</button>
   <button id="main-btn" onclick="startReading()">Jetzt starten</button>
 </div>
 
@@ -188,31 +203,58 @@ function nextPage() {
   index++;
 
   if (index < pages.length) {
-    const content = document.getElementById("content");
-    content.innerHTML = pages[index];
-    content.scrollTop = 0;
-
-    document.getElementById("counter").innerHTML =
-      "Seite " + (index + 1) + " von " + pages.length;
-
-    const btn = document.getElementById("main-btn");
-    btn.innerHTML = (index % 2 === 0)
-      ? "Jetzt ohne Übersetzung →"
-      : "Nächster Block →";
-
-    startTime = Date.now();
-
+    displayPage();
   } else {
-    sendLogs();
-
-    document.getElementById("content").innerHTML =
-      "<div style='text-align:center; padding: 40px;'><h3>Fertig! 🎉</h3><p>Du hast alle Leseblöcke abgeschlossen.</p><p style='margin-top: 30px;'><a href='https://sites.google.com/view/str-study' style='display: inline-block; padding: 14px 30px; background: #4CAF50; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: bold;'>Zurück zur Hauptseite</a></p></div>";
-
-    document.getElementById("counter").innerHTML = "Abgeschlossen";
-
-    const btn = document.getElementById("main-btn");
-    btn.classList.add("hidden");
+    showCompletionScreen();
   }
+}
+
+function previousPage() {
+  if (index > 0) {
+    // Remove the last log entry if going back
+    if (logs.length > 0) {
+      logs.pop();
+    }
+    
+    index--;
+    displayPage();
+  }
+}
+
+function displayPage() {
+  const content = document.getElementById("content");
+  content.innerHTML = pages[index];
+  content.scrollTop = 0;
+
+  document.getElementById("counter").innerHTML =
+    "Seite " + (index + 1) + " von " + pages.length;
+
+  const mainBtn = document.getElementById("main-btn");
+  mainBtn.innerHTML = (index % 2 === 0)
+    ? "Jetzt ohne Übersetzung →"
+    : "Nächster Block →";
+
+  // Show/hide back button
+  const backBtn = document.getElementById("back-btn");
+  if (index === 0) {
+    backBtn.classList.add("hidden");
+  } else {
+    backBtn.classList.remove("hidden");
+  }
+
+  startTime = Date.now();
+}
+
+function showCompletionScreen() {
+  sendLogs();
+
+  document.getElementById("content").innerHTML =
+    "<div style='text-align:center; padding: 40px;'><h3>Fertig! 🎉</h3><p>Du hast alle Leseblöcke abgeschlossen.</p><p style='margin-top: 30px;'><a href='https://sites.google.com/view/str-study' style='display: inline-block; padding: 14px 30px; background: #4CAF50; color: white; text-decoration: none; border-radius: 12px; font-size: 18px; font-weight: bold;'>Zurück zur Hauptseite</a></p></div>";
+
+  document.getElementById("counter").innerHTML = "Abgeschlossen";
+
+  document.getElementById("main-btn").classList.add("hidden");
+  document.getElementById("back-btn").classList.add("hidden");
 }
 
 /* ================= LOGGING ================= */
